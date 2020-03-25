@@ -81,6 +81,11 @@ class Lab_ak_input extends CI_Controller {
 		echo $response;
 	}
 
+	public function getPetakPilihan(){
+			$petak_pilihan = json_decode($this->input->post("petak_pilihan"));
+			var_dump($petak_pilihan);
+	}
+
   public function getJenisAnalisa(){
     echo $this->ankem_model->getJenisAnalisa();
   }
@@ -97,7 +102,7 @@ class Lab_ak_input extends CI_Controller {
       <div class="row">
         <div class="card">
           <div class="card-header">
-            <h4 class="modal-title">Input Data Analisa</h4>
+            <h4 class="modal-title">Input Data Petak</h4>
           </div>
           <div class="card-body">
             <div class="row">
@@ -153,7 +158,7 @@ class Lab_ak_input extends CI_Controller {
                   <div class="invalid-feedback">Tanggal analisa belum dipilih!</div>
                 </div>
 								<div class="text-right">
-                    <button id="btnNextAnalisa" type="button" style="margin-right: 30px; width: 200px;" class="btn btn-outline-primary">Lanjutkan</button>
+                  <button id="btnNextAnalisa" type="button" style="margin-right: 30px; width: 200px;" class="btn btn-outline-primary">Lanjutkan</button>
                 </div>
               </div>
 							<div class="col-md-12 col-lg-6">
