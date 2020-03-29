@@ -9,8 +9,11 @@ var txtLuasTanam = $("#luas_tanam");
 var txtMasaTanam = $("#masa_tanam");
 var txtVarietas = $("#varietas");
 var txtKategori = $("#kategori");
+var txtTglAnalisaAkhir = $("#tgl_analisa_akhir");
+var txtRondeAnalisaAkhir = $("#ronde_analisa_akhir");
 var btnNextAnalisa = $("#btnNextAnalisa");
 var $petak_pilihan;
+var $data_analisaPetakPilihan;
 
 function formatTgl(dateObj){
   if(dateObj != null){
@@ -59,6 +62,10 @@ $cbxRondeAnalisa = $("#ronde_analisa").selectize({
   sortField: "text"
 })
 
+function setDataAwal(data){
+  $data_analisaPetakPilihan = data;
+}
+
 $cbxKepemilikan = $("#kepemilikan").selectize({
   create: false,
   sortField: "text",
@@ -96,14 +103,25 @@ $cbxPetakKebun = $("#petak_kebun").selectize({
   searchField: "deskripsi_blok",
   placeholder: "Pilih petak kebun",
   onChange: function(value){
+    $.ajax({
+      url: js_base_url + "Lab_ak_input/getDataAwal",
+      type: "GET",
+      dataType: "json",
+      async: false,
+      data: "kode_blok=" + cbxPetakKebun.getValue(),
+      success: setDataAwal
+    })
     $.map(this.items, function(value){
       $petak_pilihan = cbxPetakKebun.options[value];
     })
+    console.log($data_analisaPetakPilihan);
     txtDeskripsiBlok.html("<b>" + $petak_pilihan.deskripsi_blok + "</b>");
     txtLuasTanam.html(parseFloat($petak_pilihan.luas_tanam).toLocaleString(undefined, {minimumFractionDigits:2, maximumFractionDigits: 2}));
     txtMasaTanam.html($petak_pilihan.periode);
     txtVarietas.html($petak_pilihan.nama_varietas);
     txtKategori.html($petak_pilihan.status_blok);
+    txtTglAnalisaAkhir.html(($data_analisaPetakPilihan.tgl_analisa == null)? "-" : $data_analisaPetakPilihan.tgl_analisa);
+    txtRondeAnalisaAkhir.html(($data_analisaPetakPilihan.ronde_terakhir == null) ? "-" : $data_analisaPetakPilihan.ronde_terakhir);
   }
 })
 
@@ -116,7 +134,8 @@ btnNextAnalisa.on("click", function(){
       kepemilikan: cbxKepemilikan.getValue(),
       ronde_analisa: cbxRondeAnalisa.getValue(),
       tgl_analisa: formatTgl(dtpAwal.datepicker("getDate")),
-      petak_kebun: $petak_pilihan
+      petak_kebun: $petak_pilihan,
+      data_awal: $data_analisaPetakPilihan
     };
     $.ajax({
       url: js_base_url + "Lab_ak_dataanalisa/setPetakPilihan",
@@ -142,7 +161,11 @@ function validasiForm(){
     $cbxPetakKebun.removeClass("is-invalid");
     $cbxRondeAnalisa.removeClass("is-invalid");
     dtpAwal.removeClass("is-invalid");
-    return true;
+    if (parseInt(cbxRondeAnalisa.getValue()) > $data_analisaPetakPilihan.ronde_terakhir){
+      return true;
+    } else {
+      alert("Cek kembali ronde analisa!");
+    }
   } else {
     (cbxJenisAnalisa.getValue() == "") ? $cbxJenisAnalisa.addClass("is-invalid") : $cbxJenisAnalisa.removeClass("is-invalid");
     (cbxKepemilikan.getValue() == "") ? $cbxKepemilikan.addClass("is-invalid") : $cbxKepemilikan.removeClass("is-invalid");

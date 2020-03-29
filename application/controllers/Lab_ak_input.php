@@ -32,6 +32,10 @@ class Lab_ak_input extends CI_Controller {
 		echo $this->dashboard_model->loadData();
 	}
 
+	public function getDataAwal(){
+		echo $this->ankem_model->getDataAwal();
+	}
+
 	public function getAllPetakKebunByKepemilikan(){
 		$kepemilikan = $this->input->get("kepemilikan");
 		$db_server = "";

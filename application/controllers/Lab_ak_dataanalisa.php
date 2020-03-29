@@ -11,6 +11,7 @@ class Lab_ak_dataanalisa extends CI_Controller {
       redirect("login");
     }
     $this->load->model("ankem_model");
+    $this->load->model("ankemfisik_model");
 		$this->load->model("dashboard_model");
 		$this->load->helper(array('url', 'html'));
 		$this->load->library('session');
@@ -19,10 +20,10 @@ class Lab_ak_dataanalisa extends CI_Controller {
 	public function index()
 	{
     if($this->session->userdata("petak_pilihan") == false){
-      //redirect("Lab_ak_input");
+      redirect("Lab_ak_input");
     }
     $this->petak_pilihan = $this->session->userdata("petak_pilihan");
-    $this->session->unset_userdata("petak_pilihan");
+    //$this->session->unset_userdata("petak_pilihan");
     $data["pageTitle"] = "Lab. Analisa Kemasakan";
     $data['content'] = $this->loadContent();
     $data['script'] = $this->loadScript();
@@ -33,10 +34,12 @@ class Lab_ak_dataanalisa extends CI_Controller {
     return '$.getScript("'.base_url("/assets/app_js/Lab_ak_dataanalisa.js").'");';
   }
 
+  public function simpanDataAnalisa(){
+    $id_analisa = $this->ankem_model->simpan();
+  }
+
   public function getPetakPilihan(){
-    $this->petak_pilihan = $this->session->userdata("petak_pilihan");
-    $this->session->unset_userdata("petak_pilihan");
-    echo json_encode($this->petak_pilihan->petak_kebun);
+    echo json_encode($this->session->userdata("petak_pilihan"));
   }
 
   public function setPetakPilihan(){
@@ -58,6 +61,7 @@ class Lab_ak_dataanalisa extends CI_Controller {
     $ronde_analisa = $this->petak_pilihan->ronde_analisa;
     $tgl_analisa = $this->petak_pilihan->tgl_analisa;
     $nama_analisa = $this->petak_pilihan->nama_analisa;
+    $nama_varietas = $this->petak_pilihan->petak_kebun->nama_varietas;
 		$content_header =
 		'
     <div class="page">
@@ -68,21 +72,21 @@ class Lab_ak_dataanalisa extends CI_Controller {
           </div>
           <div class="card-body">
             <div class="row">
-              <div class="col-md-12 col-lg-4">
+              <div class="col-md-12 col-lg-8">
                 <div class="card">
                   <div class="card-status bg-green"></div>
                   <div class="card-body">
                     <div class="row">
                       <div class="col-md-12 col-lg-12">
-                        <div>'.$deskripsi_blok.' &nbsp;'.$masa_tanam.' &nbsp;'.$kategori.'</div>
-                        <div>'.$luas.' Ha</div>
-                        <div>'.$this->petak_pilihan->petak_kebun->nama_varietas.'</div>
+                        <div>'.$deskripsi_blok.'</div>
+                        <div>'.$luas.' Ha  |&nbsp;'.$masa_tanam.' |&nbsp;'.$kategori.'</div>
+                        <div>'.$nama_varietas.'</div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="col-md-12 col-lg-3">
+              <div class="col-md-12 col-lg-4">
                 <div class="card">
                   <div class="card-status bg-blue"></div>
                   <div class="card-body">
@@ -91,20 +95,6 @@ class Lab_ak_dataanalisa extends CI_Controller {
                         <div>'.$nama_analisa.'</div>
                         <div>Ronde ke-'.$ronde_analisa.'</div>
                         <div>'.$tgl_analisa.'</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-12 col-lg-5">
-                <div class="card">
-                  <div class="card-status bg-red"></div>
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col-md-12 col-lg-12">
-                        <div>Rend. campur</div>
-                        <div>FK</div>
-                        <div>KP</div>
                       </div>
                     </div>
                   </div>
@@ -187,14 +177,14 @@ class Lab_ak_dataanalisa extends CI_Controller {
                             <div class="col-md-12 col-lg-2"><input type="text" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="tebu_atas"></div>
                             <div class="col-md-12 col-lg-2"><input type="text" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="tebu_tengah"></div>
                             <div class="col-md-12 col-lg-2"><input type="text" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="tebu_bawah"></div>
-                            <div class="col-md-12 col-lg-2"><input type="text" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="tebu_campur"></div>
+                            <div class="col-md-12 col-lg-2"><input type="text" style="text-transform: uppercase; height: 80%;" disabled="true" class="form-control text-right" id="tebu_campur"></div>
                           </div>
                           <div class="row" style="margin-top: 10px">
                             <div class="col-md-12 col-lg-4" style="padding-top: 5px;">Berat nira (kg)</div>
                             <div class="col-md-12 col-lg-2"><input type="text" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="nira_atas"></div>
                             <div class="col-md-12 col-lg-2"><input type="text" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="nira_tengah"></div>
                             <div class="col-md-12 col-lg-2"><input type="text" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="nira_bawah"></div>
-                            <div class="col-md-12 col-lg-2"><input type="text" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="nira_campur"></div>
+                            <div class="col-md-12 col-lg-2"><input type="text" style="text-transform: uppercase; height: 80%;" disabled="true" class="form-control text-right" id="nira_campur"></div>
                           </div>
                           <div class="row" style="margin-top: 10px">
                             <div class="col-md-12 col-lg-4" style="padding-top: 5px;">Penggerek</div>
@@ -220,23 +210,23 @@ class Lab_ak_dataanalisa extends CI_Controller {
                           <div class="row" style="margin-top: 10px">
                             <div class="col-md-12 col-lg-4" style="padding-top: 5px;">Suhu</div>
                             <div class="col-md-12 col-lg-2"><input type="text" disabled="disabled" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="suhu_atas"></div>
-                            <div class="col-md-12 col-lg-2"><input type="text" disabled="disabled"style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="suhu_tengah"></div>
-                            <div class="col-md-12 col-lg-2"><input type="text" disabled="disabled"style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="suhu_bawah"></div>
+                            <div class="col-md-12 col-lg-2"><input type="text" disabled="disabled" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="suhu_tengah"></div>
+                            <div class="col-md-12 col-lg-2"><input type="text" disabled="disabled" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="suhu_bawah"></div>
                             <div class="col-md-12 col-lg-2"><input type="text" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="suhu_campur"></div>
                           </div>
                           <div class="row" style="margin-top: 10px">
                             <div class="col-md-12 col-lg-4" style="padding-top: 5px;">Koreksi suhu</div>
                             <div class="col-md-12 col-lg-2"><input type="text" disabled="disabled" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="korsuhu_atas"></div>
-                            <div class="col-md-12 col-lg-2"><input type="text" disabled="disabled"style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="korsuhu_tengah"></div>
-                            <div class="col-md-12 col-lg-2"><input type="text" disabled="disabled"style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="korsuhu_bawah"></div>
+                            <div class="col-md-12 col-lg-2"><input type="text" disabled="disabled" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="korsuhu_tengah"></div>
+                            <div class="col-md-12 col-lg-2"><input type="text" disabled="disabled" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="korsuhu_bawah"></div>
                             <div class="col-md-12 col-lg-2"><input type="text" style="text-transform: uppercase; height: 80%;" class="form-control text-right" id="korsuhu_campur"></div>
                           </div>
                           <div class="row" style="margin-top: 20px">
                             <div class="col-md-12 col-lg-12">
                               <div class="btn-list text-center">
-                                <button type="button" class="btn btn-green"><i class="fe fe-percent"></i> Hitung Data</button>
-                                <button type="button" class="btn btn-primary"><i class="fe fe-save"></i> Simpan Data</button>
-                                <button type="button" class="btn btn-red"><i class="fe fe-arrow-left-circle"></i> Batal & Kembali</button>
+                                <button type="button" class="btn btn-green" id="btn_hitungData"><i class="fe fe-percent"></i> Hitung Data</button>
+                                <button type="button" class="btn btn-primary" disabled="disabled" id="btn_simpanData"><i class="fe fe-save"></i> Simpan Data</button>
+                                <button type="button" class="btn btn-red" id="btn_kembali"><i class="fe fe-arrow-left-circle"></i> Batal & Kembali</button>
                               </div>
                             </div>
                           </div>
@@ -252,7 +242,106 @@ class Lab_ak_dataanalisa extends CI_Controller {
       </div>
     </div>
     ';
-		return $content_header;
+    $content_hasilAnalisa =
+    '
+    <div class="modal fade" id="dialogHasilAnalisa">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Hasil Analisa</h4>
+            <button class="close" data-dismiss="modal" type="button"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12 col-lg-5">
+                <div class="card">
+                  <div class="card-status bg-blue"></div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12 col-lg-12">
+                        <div class="text-center h5">Perhitungan Fisik</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 col-lg-8">
+                        <div class="text-right">Rata-rata panjang (m)</div>
+                        <div class="text-right">Rata-rata ruas</div>
+                        <div class="text-right">Rata-rata diameter (cm)</div>
+                        <div class="text-right">Kg per meter</div>
+                      </div>
+                      <div class="col-md-12 col-lg-4">
+                        <div class="text-left" id="lbl_rataPanjang">00.0</div>
+                        <div class="text-left" id="lbl_rataRuas">00.0</div>
+                        <div class="text-left" id="lbl_rataDiameter">00.0</div>
+                        <div class="text-left" id="lbl_kgm">00.0</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-7">
+                <div class="card">
+                  <div class="card-status bg-red"></div>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-md-12 col-lg-12">
+                        <div class="text-center h5">Data Analisa</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 col-lg-4">
+                        <div class="text-right">Brix campuran</div>
+                        <div class="text-right">Pol campuran</div>
+                        <div class="text-right">HK campuran</div>
+                      </div>
+                      <div class="col-md-12 col-lg-2">
+                        <div class="text-left">00.0</div>
+                        <div class="text-left">00.0</div>
+                        <div class="text-left">00.0</div>
+                      </div>
+                      <div class="col-md-12 col-lg-4">
+                        <div class="text-right">Faktor</div>
+                        <div class="text-right">NN campur</div>
+                        <div class="text-right">Rend. campur</div>
+                      </div>
+                      <div class="col-md-12 col-lg-2">
+                        <div class="text-left">00.0</div>
+                        <div class="text-left">00.0</div>
+                        <div class="text-left">00.0</div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 col-lg-4">
+                        <div class="text-right"></div>
+                        <div class="text-right"></div>
+                        <div class="text-right"></div>
+                      </div>
+                      <div class="col-md-12 col-lg-2">
+                        <div class="text-left"></div>
+                        <div class="text-left"></div>
+                        <div class="text-left"></div>
+                      </div>
+                      <div class="col-md-12 col-lg-4">
+                        <div class="text-right">FK</div>
+                        <div class="text-right">KP</div>
+                        <div class="text-right">KDT</div>
+                      </div>
+                      <div class="col-md-12 col-lg-2">
+                        <div class="text-left">00.0</div>
+                        <div class="text-left">00.0</div>
+                        <div class="text-left">00.0</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    ';
+		return $content_header.$content_hasilAnalisa;
 	}
 }
 
