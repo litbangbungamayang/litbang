@@ -524,7 +524,7 @@ function getInputAnalisa(){
   lbl_rataRuas.html(dataHitungFisikTebu.fisik_ruas);
   lbl_rataDiameter.html(dataHitungFisikTebu.fisik_dia);
   lbl_kgm.html(v_kgPerMeter);
-  lbl_brixc.html(v_brixCampur);
+  lbl_brixc.html(v_brixHitungCampur);
   lbl_polc.html(v_polCampur);
   lbl_hkc.html(v_hkCampur);
   lbl_faktor.html(v_faktorPerah);
