@@ -124,16 +124,17 @@ class Ankem_model extends CI_Model{
 
   public function getDataAwal(){
     $kode_blok = $this->input->get("kode_blok");
+    $jenis_analisa = $this->input->get("jenis_analisa");
     $query =
     "
     select
-      max(ankem.ronde) as ronde_terakhir, ankem.tgl_analisa,
+      ankem.ronde as ronde_terakhir, ankem.tgl_analisa,
       round(avg(ankem.rend_campur),2) as rataan_rendCampur,
       round(avg(ankem.hk_bawah),2) as rataan_hkBawah
     from tbl_ltb_dataankem ankem
-    where ankem.kode_petak = ?
+    where ankem.kode_petak = ? and ankem.jenis_analisa = ?
     ";
-    return json_encode($this->db->query($query, array($kode_blok))->row());
+    return json_encode($this->db->query($query, array($kode_blok, $jenis_analisa))->result());
   }
 
 }

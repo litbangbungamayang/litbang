@@ -34,6 +34,11 @@ class Lab_ak_dataanalisa extends CI_Controller {
     return '$.getScript("'.base_url("/assets/app_js/Lab_ak_dataanalisa.js").'");';
   }
 
+  public function unsetPetakPilihan(){
+    $this->session->unset_userdata("petak_pilihan");
+    echo site_url("Lab_ak_input");
+  }
+
   public function simpanDataAnalisa(){
     $id_analisa = $this->ankem_model->simpan();
   }
@@ -225,7 +230,6 @@ class Lab_ak_dataanalisa extends CI_Controller {
                             <div class="col-md-12 col-lg-12">
                               <div class="btn-list text-center">
                                 <button type="button" class="btn btn-green" id="btn_hitungData"><i class="fe fe-percent"></i> Hitung Data</button>
-                                <button type="button" class="btn btn-primary" disabled="disabled" id="btn_simpanData"><i class="fe fe-save"></i> Simpan Data</button>
                                 <button type="button" class="btn btn-red" id="btn_kembali"><i class="fe fe-arrow-left-circle"></i> Batal & Kembali</button>
                               </div>
                             </div>
@@ -295,9 +299,9 @@ class Lab_ak_dataanalisa extends CI_Controller {
                         <div class="text-right">HK campuran</div>
                       </div>
                       <div class="col-md-12 col-lg-2">
-                        <div class="text-left">00.0</div>
-                        <div class="text-left">00.0</div>
-                        <div class="text-left">00.0</div>
+                        <div class="text-left" id="lbl_brixc">00.0</div>
+                        <div class="text-left" id="lbl_polc">00.0</div>
+                        <div class="text-left" id="lbl_hkc">00.0</div>
                       </div>
                       <div class="col-md-12 col-lg-4">
                         <div class="text-right">Faktor</div>
@@ -305,9 +309,9 @@ class Lab_ak_dataanalisa extends CI_Controller {
                         <div class="text-right">Rend. campur</div>
                       </div>
                       <div class="col-md-12 col-lg-2">
-                        <div class="text-left">00.0</div>
-                        <div class="text-left">00.0</div>
-                        <div class="text-left">00.0</div>
+                        <div class="text-left" id="lbl_faktor">00.0</div>
+                        <div class="text-left" id="lbl_nnc">00.0</div>
+                        <div class="text-left" id="lbl_rendc">00.0</div>
                       </div>
                     </div>
                     <div class="row">
@@ -327,12 +331,19 @@ class Lab_ak_dataanalisa extends CI_Controller {
                         <div class="text-right">KDT</div>
                       </div>
                       <div class="col-md-12 col-lg-2">
-                        <div class="text-left">00.0</div>
-                        <div class="text-left">00.0</div>
-                        <div class="text-left">00.0</div>
+                        <div class="text-left" id="lbl_fk">00.0</div>
+                        <div class="text-left" id="lbl_kp">00.0</div>
+                        <div class="text-left" id="lbl_kdt">00.0</div>
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12 col-lg-12">
+                <div class="btn-list text-center">
+                  <button type="button" class="btn btn-primary" id="btn_simpanData"><i class="fe fe-save"></i> Simpan Data</button>
                 </div>
               </div>
             </div>

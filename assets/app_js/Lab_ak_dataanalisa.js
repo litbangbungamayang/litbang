@@ -41,11 +41,21 @@ var lbl_rataPanjang = $("#lbl_rataPanjang");
 var lbl_rataRuas = $("#lbl_rataRuas");
 var lbl_rataDiameter = $("#lbl_rataDiameter");
 var lbl_kgm = $("#lbl_kgm");
+var lbl_brixc = $("#lbl_brixc");
+var lbl_polc = $("#lbl_polc");
+var lbl_hkc = $("#lbl_hkc");
+var lbl_faktor = $("#lbl_faktor");
+var lbl_nnc = $("#lbl_nnc");
+var lbl_rendc = $("#lbl_rendc");
+var lbl_fk = $("#lbl_fk");
+var lbl_kp = $("#lbl_kp");
+var lbl_kdt = $("#lbl_kdt");
 
 var arrayFisikTebu = [];
 var arrayPost = [];
 var dataAnalisaTebu;
 var dataHitungFisikTebu;
+var dataJumlahFisikTebu;
 var objFisikTebu = function(fisik_panjang, fisik_ruas, fisik_dia){
   var obj = {};
   obj.fisik_panjang = fisik_panjang;
@@ -134,9 +144,9 @@ $.ajax({
 })
 
 txtPanjang.on("keyup blur", function(){
-  $(this).val($(this).val().replace(/[^0-9. ]/g,"").replace(/(\..*)\./g, '$1'));
-  if(parseFloat($(this).val()) > 100){
-    $(this).val($(this).val()/100);
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
   }
 })
 
@@ -145,7 +155,137 @@ txtRuas.on("keyup blur", function(){
 })
 
 txtDiameter.on("keyup blur", function(){
-  $(this).val($(this).val().replace(/[^0-9. ]/g,"").replace(/(\..*)\./g, '$1'));
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) > 10){
+    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+  }
+})
+
+tebu_atas.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+  }
+})
+
+tebu_tengah.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+  }
+})
+
+tebu_bawah.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+  }
+})
+
+tebu_campur.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+  }
+})
+
+nira_atas.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+  }
+})
+
+nira_tengah.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+  }
+})
+
+nira_bawah.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+  }
+})
+
+nira_campur.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+  }
+})
+
+penggerek_campur.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+  }
+})
+
+brix_atas.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+  }
+})
+
+brix_tengah.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+  }
+})
+
+brix_bawah.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+  }
+})
+
+brix_campur.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+  }
+})
+
+putaran_atas.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+  }
+})
+
+putaran_tengah.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+  }
+})
+
+putaran_bawah.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+  }
+})
+
+putaran_campur.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+  if(parseFloat($(this).val()) >= 100){
+    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+  }
+})
+
+suhu_campur.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
+})
+
+korsuhu_campur.on("keyup blur", function(){
+  $(this).val($(this).val().replace(/[^0-9.-]/g,"").replace(/(\..*)\./g, '$1'));
 })
 
 $cbxSampelAnalisa = $("#sampel_analisa").selectize({
@@ -197,6 +337,17 @@ btn_hitungData.on("click", function(){
   }
 })
 
+btn_kembali.on("click", function(){
+  $.ajax({
+    url: js_base_url + "Lab_ak_dataanalisa/unsetPetakPilihan",
+    type: "GET",
+    dataType: "text",
+    success: function(data){
+      window.location.href = data;
+    }
+  })
+})
+
 function duaDesimal(angka){
   return Number(parseFloat(angka).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits:2}));
 }
@@ -245,6 +396,11 @@ function hitungDataFisik(){
       duaDesimal(jml_panjang/arrayFisikTebu.length),
       parseInt(jml_ruas/arrayFisikTebu.length),
       duaDesimal(jml_diameter/arrayFisikTebu.length)
+    );
+    dataJumlahFisikTebu = objFisikTebu(
+      duaDesimal(jml_panjang),
+      parseInt(jml_ruas),
+      duaDesimal(jml_diameter)
     );
   }
 }
@@ -336,31 +492,54 @@ function getInputAnalisa(){
   var v_brixHitungCampur = v_brixCampur + v_korSuhuCampur;
   var v_totalBeratNira = v_niraAtas + v_niraTengah + v_niraBawah;
   var v_totalBeratTebu = v_tebuAtas + v_tebuTengah + v_tebuBawah;
-  var faktorPerah = v_totalBeratNira/v_totalBeratTebu;
+  var v_faktorPerah = duaDesimal(v_totalBeratNira/v_totalBeratTebu);
   var v_polAtas = duaDesimal(hitungPol(v_putaranAtas, hitungBeratJenis(v_brixHitungAtas)));
   var v_polTengah = duaDesimal(hitungPol(v_putaranTengah, hitungBeratJenis(v_brixHitungTengah)));
   var v_polBawah = duaDesimal(hitungPol(v_putaranBawah, hitungBeratJenis(v_brixHitungBawah)));
   var v_polCampur = duaDesimal(hitungPol(v_putaranCampur, hitungBeratJenis(v_brixHitungCampur)));
+  var v_hkAtas = satuDesimal(v_polAtas/v_brixHitungAtas*100);
+  var v_hkTengah = satuDesimal(v_polTengah/v_brixHitungTengah*100);
+  var v_hkBawah = satuDesimal(v_polBawah/v_brixHitungBawah*100);
+  var v_hkCampur = satuDesimal(v_polCampur/v_brixHitungCampur*100);
   var v_nnAtas = duaDesimal(hitungNilaiNira(v_polAtas, v_brixHitungAtas));
   var v_nnTengah = duaDesimal(hitungNilaiNira(v_polTengah, v_brixHitungTengah));
   var v_nnBawah = duaDesimal(hitungNilaiNira(v_polBawah, v_brixHitungBawah));
   var v_nnCampur = duaDesimal(hitungNilaiNira(v_polCampur, v_brixHitungCampur));
-  var v_rendAtas = duaDesimal(v_nnAtas*faktorPerah);
-  var v_rendTengah = duaDesimal(v_nnTengah*faktorPerah);
-  var v_rendBawah = duaDesimal(v_nnBawah*faktorPerah);
-  var v_rendCampur = duaDesimal(v_nnCampur*faktorPerah);
+  var v_rendAtas = duaDesimal(v_nnAtas*v_faktorPerah);
+  var v_rendTengah = duaDesimal(v_nnTengah*v_faktorPerah);
+  var v_rendBawah = duaDesimal(v_nnBawah*v_faktorPerah);
+  var v_rendCampur = duaDesimal(v_nnCampur*v_faktorPerah);
   var v_faktorKemasakan = duaDesimal((v_rendBawah-v_rendAtas)/v_rendBawah*100);
-  var v_kgPerMeter = duaDesimal(v_totalBeratTebu/dataHitungFisikTebu.fisik_panjang);
+  var v_kgPerMeter = duaDesimal(v_totalBeratTebu/dataJumlahFisikTebu.fisik_panjang);
+  var v_kp = 0.00;
+  var v_kdt = 0.00;
+  if ($petak_pilihan.data_awal.length >= 2){
+    var rondeMin2 = $petak_pilihan.data_awal.length-1;
+    var v_rendLalu = duaDesimal($petak_pilihan.data_awal[rondeMin2].rataan_rendCampur);
+    var v_hkBawahLalu = duaDesimal($petak_pilihan.data_awal[rondeMin2].rataan_hkBawah);
+    v_kp = duaDesimal(v_rendCampur/v_rendLalu*100);
+    v_kdt = duaDesimal(v_hkBawah/v_hkBawahLalu*100);
+  }
   lbl_rataPanjang.html(dataHitungFisikTebu.fisik_panjang);
   lbl_rataRuas.html(dataHitungFisikTebu.fisik_ruas);
   lbl_rataDiameter.html(dataHitungFisikTebu.fisik_dia);
   lbl_kgm.html(v_kgPerMeter);
+  lbl_brixc.html(v_brixCampur);
+  lbl_polc.html(v_polCampur);
+  lbl_hkc.html(v_hkCampur);
+  lbl_faktor.html(v_faktorPerah);
+  lbl_nnc.html(v_nnCampur);
+  lbl_rendc.html(v_rendCampur);
+  lbl_fk.html(v_faktorKemasakan);
+  lbl_kp.html(v_kp);
+  lbl_kdt.html(v_kdt);
 }
 
 function resetFisik(){
   txtPanjang.val("");
   txtRuas.val("");
   txtDiameter.val("");
+  txtPanjang.focus();
 }
 
 function refreshTblFisik(){
@@ -391,6 +570,9 @@ $("#tbl_fisik").DataTable({
     },
     {
       data: "fisik_panjang",
+      render: function(data, type, row, meta){
+        return parseFloat(data).toLocaleString(undefined,{minimumFractionDigits: 2, maximumFractionDigits: 2});
+      },
       className: "text-right"
     },
     {
@@ -399,6 +581,9 @@ $("#tbl_fisik").DataTable({
     },
     {
       data: "fisik_dia",
+      render: function(data, type, row, meta){
+        return parseFloat(data).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2});
+      },
       className: "text-right"
     },
     {

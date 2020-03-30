@@ -46,7 +46,12 @@ $.ajax({
       maxItems: 1,
       create: false,
       placeholder: "Pilih jenis analisa",
-      options: response
+      options: response,
+      onChange: function(value){
+        cbxPetakKebun.disable();
+        cbxPetakKebun.clearOptions();
+        cbxKepemilikan.clear();
+      }
     })
     cbxJenisAnalisa = $cbxJenisAnalisa[0].selectize;
   }
@@ -108,7 +113,7 @@ $cbxPetakKebun = $("#petak_kebun").selectize({
       type: "GET",
       dataType: "json",
       async: false,
-      data: "kode_blok=" + cbxPetakKebun.getValue(),
+      data: "kode_blok=" + cbxPetakKebun.getValue() + "&jenis_analisa=" + cbxJenisAnalisa.getValue(),
       success: setDataAwal
     })
     $.map(this.items, function(value){
@@ -120,8 +125,8 @@ $cbxPetakKebun = $("#petak_kebun").selectize({
     txtMasaTanam.html($petak_pilihan.periode);
     txtVarietas.html($petak_pilihan.nama_varietas);
     txtKategori.html($petak_pilihan.status_blok);
-    txtTglAnalisaAkhir.html(($data_analisaPetakPilihan.tgl_analisa == null)? "-" : $data_analisaPetakPilihan.tgl_analisa);
-    txtRondeAnalisaAkhir.html(($data_analisaPetakPilihan.ronde_terakhir == null) ? "-" : $data_analisaPetakPilihan.ronde_terakhir);
+    txtTglAnalisaAkhir.html(($data_analisaPetakPilihan[$data_analisaPetakPilihan.length-1].tgl_analisa == null)? "-" : $data_analisaPetakPilihan[$data_analisaPetakPilihan.length-1].tgl_analisa);
+    txtRondeAnalisaAkhir.html(($data_analisaPetakPilihan[$data_analisaPetakPilihan.length-1].ronde_terakhir == null) ? "-" : $data_analisaPetakPilihan[$data_analisaPetakPilihan.length-1].ronde_terakhir);
   }
 })
 
@@ -161,7 +166,7 @@ function validasiForm(){
     $cbxPetakKebun.removeClass("is-invalid");
     $cbxRondeAnalisa.removeClass("is-invalid");
     dtpAwal.removeClass("is-invalid");
-    if (parseInt(cbxRondeAnalisa.getValue()) > $data_analisaPetakPilihan.ronde_terakhir){
+    if (parseInt(cbxRondeAnalisa.getValue()) > $data_analisaPetakPilihan[$data_analisaPetakPilihan.length-1].ronde_terakhir){
       return true;
     } else {
       alert("Cek kembali ronde analisa!");
