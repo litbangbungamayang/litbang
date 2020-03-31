@@ -40,7 +40,37 @@ class Lab_ak_dataanalisa extends CI_Controller {
   }
 
   public function simpanDataAnalisa(){
-    $id_analisa = $this->ankem_model->simpan();
+    $data_analisa = json_decode($this->input->post("data_analisa"));
+    //var_dump($data_analisa);
+    $this->db->trans_begin();
+    $id_analisa = $this->ankem_model->simpan($data_analisa);
+    //----- INPUT DATA FISIK ---------
+    for ($i = 0; $i < sizeof($data_analisa->data_fisik); $i++){
+      $post_dataFisik = array(
+        "id_analisa"=>$id_analisa,
+        "no_urut"=>$i + 1,
+        "panjang_batang"=>$data_analisa->data_fisik[$i]->fisik_panjang,
+        "jml_ruas"=>$data_analisa->data_fisik[$i]->fisik_ruas,
+        "diameter_batang"=>$data_analisa->data_fisik[$i]->fisik_dia
+      );
+      $this->ankemfisik_model->simpan($post_dataFisik);
+    }
+    //--------------------------------
+    if($this->db->trans_status()){
+      $this->db->trans_commit();
+      $no_sampel = json_decode($this->ankem_model->getSampel($data_analisa->kode_blok, $data_analisa->ronde))->no_sampel;
+      $return = (object) array(
+        "status"=>"SUCCESS",
+        "no_sampel"=>$no_sampel
+      );
+      echo json_encode($return);
+    } else {
+      $this->db->trans_rollback();
+      $return = (object) array(
+        "status"=>"FAILED",
+        "no_sampel"=>null
+      );
+    }
   }
 
   public function getPetakPilihan(){
@@ -67,6 +97,7 @@ class Lab_ak_dataanalisa extends CI_Controller {
     $tgl_analisa = $this->petak_pilihan->tgl_analisa;
     $nama_analisa = $this->petak_pilihan->nama_analisa;
     $nama_varietas = $this->petak_pilihan->petak_kebun->nama_varietas;
+    $no_sampel = 1;
 		$content_header =
 		'
     <div class="page">
@@ -96,10 +127,14 @@ class Lab_ak_dataanalisa extends CI_Controller {
                   <div class="card-status bg-blue"></div>
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-md-12 col-lg-12">
+                      <div class="col-md-12 col-lg-8">
                         <div>'.$nama_analisa.'</div>
-                        <div>Ronde ke-'.$ronde_analisa.'</div>
+                        <div>Ronde <strong>'.$ronde_analisa.' </strong></div>
                         <div>'.$tgl_analisa.'</div>
+                      </div>
+                      <div class="col-md-12 col-lg-4 border">
+                        <div class="text-center">Sampel</div>
+                        <div id="no_sampel" class="text-center h3"></div>
                       </div>
                     </div>
                   </div>

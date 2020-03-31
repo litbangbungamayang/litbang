@@ -7,6 +7,7 @@ var btn_kembali = $("#btn_kembali");
 var txtPanjang = $("#fisik_panjang");
 var txtRuas = $("#fisik_ruas");
 var txtDiameter = $("#fisik_dia");
+var txtNoSampel = $("#no_sampel");
 var dialogHasilAnalisa = $("#dialogHasilAnalisa");
 var $petak_pilihan;
 
@@ -79,7 +80,7 @@ function(
   nn_atas, nn_tengah, nn_bawah, nn_campur,
   rend_atas, rend_tengah, rend_bawah, rend_campur,
   fk, kp, kdt,
-  rata_panjang, rata_ruas, rata_diameter, kg_per_meter
+  rata_panjang, rata_ruas, rata_diameter, kg_per_meter, data_fisik
 ){
   var obj = {};
   obj.kode_blok = kode_blok;
@@ -132,6 +133,7 @@ function(
   obj.rata_ruas = rata_ruas;
   obj.rata_diameter = rata_diameter;
   obj.kg_per_meter = kg_per_meter;
+  obj.data_fisik = data_fisik;
   return obj;
 }
 
@@ -319,6 +321,11 @@ btn_addFisik.on("click", function(){
 })
 
 function returnPetakPilihan(data){
+  if (JSON.parse(localStorage.getItem("no_sampel")) == null){
+    txtNoSampel.html("1");
+  } else {
+    txtNoSampel.html(localStorage.getItem("no_sampel"));
+  }
   $petak_pilihan = data;
 }
 
@@ -337,12 +344,44 @@ btn_hitungData.on("click", function(){
   }
 })
 
+btn_simpanData.on("click", function(){
+  console.log(JSON.stringify(dataAnalisaTebu));
+  $.ajax({
+    url: js_base_url + "Lab_ak_dataanalisa/simpanDataAnalisa",
+    dataType: "json",
+    type: "POST",
+    data: "data_analisa=" + JSON.stringify(dataAnalisaTebu),
+    success: function(data){
+      if (data.status == "SUCCESS"){
+        if (confirm("Apakah ada SAMPEL lain untuk PETAK INI ?")){
+          resetAnalisa();
+          var no_sampel = Number(data.no_sampel)+1;
+          localStorage.setItem("no_sampel", no_sampel);
+          txtNoSampel.html(localStorage.getItem("no_sampel"));
+          dialogHasilAnalisa.modal("toggle");
+        } else {
+          $.ajax({
+            url: js_base_url + "Lab_ak_dataanalisa/unsetPetakPilihan",
+            type: "GET",
+            dataType: "text",
+            success: function(data){
+              localStorage.removeItem("no_sampel");
+              window.location.href = data;
+            }
+          })
+        }
+      }
+    }
+  })
+})
+
 btn_kembali.on("click", function(){
   $.ajax({
     url: js_base_url + "Lab_ak_dataanalisa/unsetPetakPilihan",
     type: "GET",
     dataType: "text",
     success: function(data){
+      localStorage.removeItem("no_sampel");
       window.location.href = data;
     }
   })
@@ -533,6 +572,48 @@ function getInputAnalisa(){
   lbl_fk.html(v_faktorKemasakan);
   lbl_kp.html(v_kp);
   lbl_kdt.html(v_kdt);
+
+  /*
+  kode_blok, jenis_analisa, ronde, no_sampel, tgl_analisa,
+  berat_tebu_atas, berat_tebu_tengah, berat_tebu_bawah,
+  berat_nira_atas, berat_nira_tengah, berat_nira_bawah,
+  penggerek,
+  brix_baca_atas, brix_baca_tengah, brix_baca_bawah, brix_baca_campur,
+  pol_baca_atas, pol_baca_tengah, pol_baca_bawah, pol_baca_campur,
+  suhu, koreksi_suhu,
+  brix_atas, brix_tengah, brix_bawah, brix_campur,
+  pol_atas, pol_tengah, pol_bawah, pol_campur,
+  faktor,
+  hk_atas, hk_tengah, hk_bawah, hk_campur,
+  nn_atas, nn_tengah, nn_bawah, nn_campur,
+  rend_atas, rend_tengah, rend_bawah, rend_campur,
+  fk, kp, kdt,
+  rata_panjang, rata_ruas, rata_diameter, kg_per_meter
+  */
+  dataAnalisaTebu = objAnalisaTebu(
+    $petak_pilihan.petak_kebun.kode_blok,
+    $petak_pilihan.jenis_analisa,
+    $petak_pilihan.ronde_analisa,
+    1, //NO SAMPEL diinput pada trigger MySQL
+    $petak_pilihan.tgl_analisa,
+    v_tebuAtas, v_tebuTengah, v_tebuBawah,
+    v_niraAtas, v_niraTengah, v_niraBawah,
+    v_penggerekCampur,
+    v_brixAtas, v_brixTengah, v_brixBawah, v_brixCampur,
+    v_putaranAtas, v_putaranTengah, v_putaranBawah, v_putaranCampur,
+    v_suhuCampur,
+    v_korSuhuCampur,
+    v_brixHitungAtas, v_brixHitungTengah, v_brixHitungBawah, v_brixHitungCampur,
+    v_polAtas, v_polTengah, v_polBawah, v_polCampur,
+    v_faktorPerah,
+    v_hkAtas, v_hkTengah, v_hkBawah, v_hkCampur,
+    v_nnAtas, v_nnTengah, v_nnBawah, v_nnCampur,
+    v_rendAtas, v_rendTengah, v_rendBawah, v_rendCampur,
+    v_faktorKemasakan, v_kp, v_kdt,
+    dataHitungFisikTebu.fisik_panjang, dataHitungFisikTebu.fisik_ruas, dataHitungFisikTebu.fisik_dia,
+    v_kgPerMeter, arrayFisikTebu
+  );
+  console.log(dataAnalisaTebu);
 }
 
 function resetFisik(){
@@ -540,6 +621,28 @@ function resetFisik(){
   txtRuas.val("");
   txtDiameter.val("");
   txtPanjang.focus();
+}
+
+function resetAnalisa(){
+  tebu_atas.val("");
+  tebu_tengah.val("");
+  tebu_bawah.val("");
+  nira_atas.val("");
+  nira_tengah.val("");
+  nira_bawah.val("");
+  penggerek_campur.val("");
+  brix_atas.val("");
+  brix_tengah.val("");
+  brix_bawah.val("");
+  brix_campur.val("");
+  putaran_atas.val("");
+  putaran_tengah.val("");
+  putaran_bawah.val("");
+  putaran_campur.val("");
+  suhu_campur.val("");
+  korsuhu_campur.val("");
+  arrayFisikTebu = [];
+  refreshTblFisik();
 }
 
 function refreshTblFisik(){

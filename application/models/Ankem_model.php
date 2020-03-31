@@ -57,6 +57,7 @@ class Ankem_model extends CI_Model{
 
   public function simpan($post = null){
     if(is_null($post))$post = $this->input->post();
+    $post = (array)$post;
     $this->kode_petak = $post["kode_blok"];
     $this->id_user = $this->session->userdata("id_user");
     $this->jenis_analisa = $post["jenis_analisa"];
@@ -122,6 +123,14 @@ class Ankem_model extends CI_Model{
     return json_encode($this->db->query($query)->result());
   }
 
+  public function getSampel($kode_blok, $ronde_analisa){
+    $query =
+    "
+      select count(*) as no_sampel from tbl_ltb_dataankem where kode_petak = ? and ronde = ?
+    ";
+    return json_encode($this->db->query($query, array($kode_blok, $ronde_analisa))->row());
+  }
+
   public function getDataAwal(){
     $kode_blok = $this->input->get("kode_blok");
     $jenis_analisa = $this->input->get("jenis_analisa");
@@ -133,6 +142,7 @@ class Ankem_model extends CI_Model{
       round(avg(ankem.hk_bawah),2) as rataan_hkBawah
     from tbl_ltb_dataankem ankem
     where ankem.kode_petak = ? and ankem.jenis_analisa = ?
+    group by ankem.ronde
     ";
     return json_encode($this->db->query($query, array($kode_blok, $jenis_analisa))->result());
   }

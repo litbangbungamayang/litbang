@@ -125,8 +125,13 @@ $cbxPetakKebun = $("#petak_kebun").selectize({
     txtMasaTanam.html($petak_pilihan.periode);
     txtVarietas.html($petak_pilihan.nama_varietas);
     txtKategori.html($petak_pilihan.status_blok);
-    txtTglAnalisaAkhir.html(($data_analisaPetakPilihan[$data_analisaPetakPilihan.length-1].tgl_analisa == null)? "-" : $data_analisaPetakPilihan[$data_analisaPetakPilihan.length-1].tgl_analisa);
-    txtRondeAnalisaAkhir.html(($data_analisaPetakPilihan[$data_analisaPetakPilihan.length-1].ronde_terakhir == null) ? "-" : $data_analisaPetakPilihan[$data_analisaPetakPilihan.length-1].ronde_terakhir);
+    if($data_analisaPetakPilihan.length > 0){
+      txtTglAnalisaAkhir.html($data_analisaPetakPilihan[$data_analisaPetakPilihan.length-1].tgl_analisa);
+      txtRondeAnalisaAkhir.html($data_analisaPetakPilihan[$data_analisaPetakPilihan.length-1].ronde_terakhir);
+    } else {
+      txtTglAnalisaAkhir.html("-");
+      txtRondeAnalisaAkhir.html("-");
+    }
   }
 })
 
@@ -166,7 +171,7 @@ function validasiForm(){
     $cbxPetakKebun.removeClass("is-invalid");
     $cbxRondeAnalisa.removeClass("is-invalid");
     dtpAwal.removeClass("is-invalid");
-    if (parseInt(cbxRondeAnalisa.getValue()) > $data_analisaPetakPilihan[$data_analisaPetakPilihan.length-1].ronde_terakhir){
+    if (parseInt(cbxRondeAnalisa.getValue()) > $data_analisaPetakPilihan.length){
       return true;
     } else {
       alert("Cek kembali ronde analisa!");

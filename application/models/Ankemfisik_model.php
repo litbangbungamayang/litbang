@@ -9,8 +9,8 @@ class Ankemfisik_model extends CI_Model{
   public $jml_ruas;
   public $diameter_batang;
 
-  public function simpan(){
-    $post = $this->input->post();
+  public function simpan($post = null){
+    if (is_null($post))$post = $this->input->post();
     $this->id_analisa = $post["id_analisa"];
     $this->no_urut = $post["no_urut"];
     $this->panjang_batang = $post["panjang_batang"];
