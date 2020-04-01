@@ -13,7 +13,7 @@ class Lab_ak_input extends CI_Controller {
 			$this->load->library('session');
 			$this->simpg_address_local = "http://localhost/simpg/index.php";
 			$this->simpg_address_live = "http://simpgbuma.ptpn7.com/index.php";
-			$this->server_env = "LOCAL";
+			$this->server_env = "LIVE";
 	}
 
 	public function index()
@@ -38,15 +38,18 @@ class Lab_ak_input extends CI_Controller {
 
 	public function getAllPetakKebunByKepemilikan(){
 		$kepemilikan = $this->input->get("kepemilikan");
+		$tahun_giling = $this->input->get("tahun_giling");
 		$db_server = "";
+		$kode_plant = $this->session->userdata("kode_plant");
 		if($this->server_env == "LOCAL"){
 			$db_server = $this->simpg_address_local;
 		} else {
-			$db_server = $this->simpg_address_live;
+			if ($kode_plant == "GK22"){$db_server = "http://simpgbuma.ptpn7.com/index.php";}
+			if ($kode_plant == "GK23"){$db_server = "http://simpgcima.ptpn7.com/index.php";}
 		}
 		$curl = curl_init();
     curl_setopt_array($curl, array(
-      CURLOPT_URL => $db_server."/api_buma/getAllPetakKebunByKepemilikan?kepemilikan=".$kepemilikan,
+      CURLOPT_URL => $db_server."/api_bcn/getAllPetakKebunByKepemilikan?kepemilikan=".$kepemilikan."&tahun_giling=".$tahun_giling,
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_TIMEOUT => 30,
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
@@ -136,7 +139,7 @@ class Lab_ak_input extends CI_Controller {
 							</div>
               <div class="col-md-12 col-lg-3">
                 <div class="form-group" id="grJenisAnalisa">
-                  <label class="form-label">Petak Kebun</label>
+                  <label class="form-label">Petak Kebun<i id="iconLoading" style="margin-left: 10px" class="fa fa-spinner fa-spin"></i></label>
                   <select name="petak_kebun" id="petak_kebun" class="custom-control custom-select" placeholder="Pilih petak kebun">
                   </select>
                   <div class="invalid-feedback">Petak kebun belum dipilih!</div>

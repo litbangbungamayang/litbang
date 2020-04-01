@@ -14,6 +14,7 @@ var txtRondeAnalisaAkhir = $("#ronde_analisa_akhir");
 var btnNextAnalisa = $("#btnNextAnalisa");
 var $petak_pilihan;
 var $data_analisaPetakPilihan;
+var iconLoading = $("#iconLoading");
 
 function formatTgl(dateObj){
   if(dateObj != null){
@@ -33,6 +34,7 @@ $("#dtpAwal").datepicker({
   format: "dd-MM-yyyy"
 });
 
+iconLoading.hide();
 $.ajax({
   url: js_base_url + "Lab_ak_input/getJenisAnalisa",
   type: "GET",
@@ -59,7 +61,11 @@ $.ajax({
 
 $cbxTahunGiling = $("#tahun_giling").selectize({
   create: false,
-  sortField: "text"
+  sortField: "text",
+  onChange: function(value){
+    cbxJenisAnalisa.clear();
+    cbxKepemilikan.clear();
+  }
 })
 
 $cbxRondeAnalisa = $("#ronde_analisa").selectize({
@@ -86,13 +92,15 @@ $cbxKepemilikan = $("#kepemilikan").selectize({
       txtMasaTanam.html("");
       txtVarietas.html("");
       txtKategori.html("");
+      iconLoading.show();
       $.ajax({
         url: js_base_url + "Lab_ak_input/getAllPetakKebunByKepemilikan",
         type: "GET",
         dataType: "json",
-        data: "kepemilikan=" + $selected,
+        data: "kepemilikan=" + $selected + "&tahun_giling=" + cbxTahunGiling.getValue(),
         success: function(response){
           cbxPetakKebun.enable();
+          iconLoading.hide();
           callback(response);
         }
       })

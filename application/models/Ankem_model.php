@@ -3,6 +3,7 @@
 class Ankem_model extends CI_Model{
 
   private $_table = "tbl_ltb_dataankem";
+  public $kode_plant;
   public $kode_petak;
   public $id_user;
   public $jenis_analisa;
@@ -58,6 +59,7 @@ class Ankem_model extends CI_Model{
   public function simpan($post = null){
     if(is_null($post))$post = $this->input->post();
     $post = (array)$post;
+    $this->kode_plant = $this->session->userdata("kode_plant");
     $this->kode_petak = $post["kode_blok"];
     $this->id_user = $this->session->userdata("id_user");
     $this->jenis_analisa = $post["jenis_analisa"];
