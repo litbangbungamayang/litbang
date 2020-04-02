@@ -148,7 +148,7 @@ $.ajax({
 txtPanjang.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+    $(this).val(parseFloat($(this).val()/100).toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits: 2}));
   }
 })
 
@@ -159,126 +159,126 @@ txtRuas.on("keyup blur", function(){
 txtDiameter.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) > 10){
-    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+    $(this).val(parseFloat($(this).val()/10).toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits: 2}));
   }
 })
 
 tebu_atas.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+    $(this).val(parseFloat($(this).val()/100).toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits: 2}));
   }
 })
 
 tebu_tengah.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+    $(this).val(parseFloat($(this).val()/100).toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits: 2}));
   }
 })
 
 tebu_bawah.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+    $(this).val(parseFloat($(this).val()/100).toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits: 2}));
   }
 })
 
 tebu_campur.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+    $(this).val(parseFloat($(this).val()/100).toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits: 2}));
   }
 })
 
 nira_atas.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+    $(this).val(parseFloat($(this).val()/100).toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits: 2}));
   }
 })
 
 nira_tengah.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+    $(this).val(parseFloat($(this).val()/100).toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits: 2}));
   }
 })
 
 nira_bawah.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+    $(this).val(parseFloat($(this).val()/100).toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits: 2}));
   }
 })
 
 nira_campur.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+    $(this).val(parseFloat($(this).val()/100).toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits: 2}));
   }
 })
 
 penggerek_campur.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/100).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2}));
+    $(this).val(parseFloat($(this).val()/100).toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits: 2}));
   }
 })
 
 brix_atas.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+    $(this).val(parseFloat($(this).val()/10).toLocaleString("en-US", {maximumFractionDigits: 1, minimumFractionDigits: 1}));
   }
 })
 
 brix_tengah.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+    $(this).val(parseFloat($(this).val()/10).toLocaleString("en-US", {maximumFractionDigits: 1, minimumFractionDigits: 1}));
   }
 })
 
 brix_bawah.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+    $(this).val(parseFloat($(this).val()/10).toLocaleString("en-US", {maximumFractionDigits: 1, minimumFractionDigits: 1}));
   }
 })
 
 brix_campur.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+    $(this).val(parseFloat($(this).val()/10).toLocaleString("en-US", {maximumFractionDigits: 1, minimumFractionDigits: 1}));
   }
 })
 
 putaran_atas.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+    $(this).val(parseFloat($(this).val()/10).toLocaleString("en-US", {maximumFractionDigits: 1, minimumFractionDigits: 1}));
   }
 })
 
 putaran_tengah.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+    $(this).val(parseFloat($(this).val()/10).toLocaleString("en-US", {maximumFractionDigits: 1, minimumFractionDigits: 1}));
   }
 })
 
 putaran_bawah.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+    $(this).val(parseFloat($(this).val()/10).toLocaleString("en-US", {maximumFractionDigits: 1, minimumFractionDigits: 1}));
   }
 })
 
 putaran_campur.on("keyup blur", function(){
   $(this).val($(this).val().replace(/[^0-9.]/g,"").replace(/(\..*)\./g, '$1'));
   if(parseFloat($(this).val()) >= 100){
-    $(this).val(parseFloat($(this).val()/10).toLocaleString(undefined, {maximumFractionDigits: 1, minimumFractionDigits: 1}));
+    $(this).val(parseFloat($(this).val()/10).toLocaleString("en-US", {maximumFractionDigits: 1, minimumFractionDigits: 1}));
   }
 })
 
@@ -388,11 +388,11 @@ btn_kembali.on("click", function(){
 })
 
 function duaDesimal(angka){
-  return Number(parseFloat(angka).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits:2}));
+  return Number(parseFloat(angka).toLocaleString("en-US", {minimumFractionDigits: 2, maximumFractionDigits:2}));
 }
 
 function satuDesimal(angka){
-  return Number(parseFloat(angka).toLocaleString(undefined, {minimumFractionDigits: 1, maximumFractionDigits:1}));
+  return Number(parseFloat(angka).toLocaleString("en-US", {minimumFractionDigits: 1, maximumFractionDigits:1}));
 }
 
 function hitungBeratJenis(brixHitung){
@@ -674,7 +674,7 @@ $("#tbl_fisik").DataTable({
     {
       data: "fisik_panjang",
       render: function(data, type, row, meta){
-        return parseFloat(data).toLocaleString(undefined,{minimumFractionDigits: 2, maximumFractionDigits: 2});
+        return parseFloat(data).toLocaleString("en-US",{minimumFractionDigits: 2, maximumFractionDigits: 2});
       },
       className: "text-right"
     },
@@ -685,7 +685,7 @@ $("#tbl_fisik").DataTable({
     {
       data: "fisik_dia",
       render: function(data, type, row, meta){
-        return parseFloat(data).toLocaleString(undefined, {maximumFractionDigits: 2, minimumFractionDigits: 2});
+        return parseFloat(data).toLocaleString("en-US", {maximumFractionDigits: 2, minimumFractionDigits: 2});
       },
       className: "text-right"
     },

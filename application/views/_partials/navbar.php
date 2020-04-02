@@ -12,7 +12,7 @@
           <li class="nav-item dropdown" style="display: ">
             <a href="javascript:void(0)" class="nav-link <? echo ($this->uri->segment(1) == 'rdkk_add')||($this->uri->segment(1) == 'rdkk_all') ? 'active' : '' ?>" data-toggle="dropdown"><i class="fe fe-book-open"></i> Lab. Analisa Kemasakan</a>
             <div class="dropdown-menu dropdown-menu-arrow">
-              <a href="<? echo site_url('/lab_ak_input')?>" class="dropdown-item " style="<? echo ($this->session->userdata('afd') == '') ? 'display:none' : ''; ?>"><i class="fe fe-search"></i> Input Data Analisa</a>
+              <a href="<? echo site_url('/lab_ak_input')?>" class="dropdown-item " style=""><i class="fe fe-search"></i> Input Data Analisa</a>
               <a href="<? echo site_url('/lab_ak_browse')?>" class="dropdown-item "><i class="fe fe-edit"></i> Penelusuran Data</a>
             </div>
           </li>

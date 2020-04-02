@@ -93,6 +93,7 @@ $cbxKepemilikan = $("#kepemilikan").selectize({
       txtVarietas.html("");
       txtKategori.html("");
       iconLoading.show();
+      console.log($selected);
       $.ajax({
         url: js_base_url + "Lab_ak_input/getAllPetakKebunByKepemilikan",
         type: "GET",
