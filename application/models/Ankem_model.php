@@ -149,4 +149,52 @@ class Ankem_model extends CI_Model{
     return json_encode($this->db->query($query, array($kode_blok, $jenis_analisa))->result());
   }
 
+  public function getAllData(){
+    $tahun_giling = $this->input->get("tahun_giling");
+    $kode_plant = $this->input->get("kode_plant");
+    $tgl_awal = $this->input->get("tgl_awal");
+    $tgl_akhir = $this->input->get("tgl_akhir");
+    $query =
+    "
+    select
+      ptk.kode_blok, ptk.deskripsi_blok, ptk.periode,
+      ptk.status_blok, ptk.luas_tanam, ptk.kepemilikan,
+      dta.tgl_analisa,
+      avg(dta.brix_atas) as brix_atas,
+      avg(dta.brix_tengah) as brix_tengah,
+      avg(dta.brix_bawah) as brix_bawah,
+      avg(dta.brix_campur) as brix_campur,
+      avg(dta.pol_atas) as pol_atas,
+      avg(dta.pol_tengah) as pol_tengah,
+      avg(dta.pol_bawah) as pol_bawah,
+      avg(dta.pol_campur) as pol_campur,
+      avg(dta.faktor) as faktor,
+      avg(dta.hk_atas) as hk_atas,
+      avg(dta.hk_tengah) as hk_tengah,
+      avg(dta.hk_bawah) as hk_bawah,
+      avg(dta.hk_campur) as hk_campur,
+      avg(dta.nn_atas) as nn_atas,
+      avg(dta.nn_tengah) as nn_tengah,
+      avg(dta.nn_bawah) as nn_bawah,
+      avg(dta.nn_campur) as nn_campur,
+      avg(dta.rend_atas) as rend_atas,
+      avg(dta.rend_tengah) as rend_tengah,
+      avg(dta.rend_bawah) as rend_bawah,
+      avg(dta.rend_campur) as rend_campur,
+      avg(dta.fk) as fk,
+      avg(dta.kp) as kp,
+      avg(dta.kdt) as kdt,
+      avg(dta.rata_panjang) as rata_panjang,
+      avg(dta.rata_ruas) as rata_ruas,
+      avg(dta.rata_diameter) as rata_diameter,
+      avg(dta.kg_per_meter) as rata_kgm
+      from tbl_ltb_dataankem dta
+    join tbl_petak ptk on dta.kode_petak = ptk.kode_blok
+    join tbl_varietas vts on vts.id_varietas = ptk.kode_varietas
+    where dta.kode_plant = ? and dta.tgl_analisa >= ? and dta.tgl_analisa <= ?
+    group by dta.kode_petak
+    ";
+    return json_encode($this->db->query($query, array($kode_plant, $tgl_awal, $tgl_akhir))->result());
+  }
+
 }

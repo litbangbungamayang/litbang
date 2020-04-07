@@ -9,11 +9,12 @@ class Lab_ak_input extends CI_Controller {
       }
       $this->load->model("ankem_model");
 			$this->load->model("dashboard_model");
+			$this->load->model("petakkebun_model");
 			$this->load->helper(array('url', 'html'));
 			$this->load->library('session');
 			$this->simpg_address_local = "http://localhost/simpg/index.php";
 			$this->simpg_address_live = "http://simpgbuma.ptpn7.com/index.php";
-			$this->server_env = "LIVE";
+			$this->server_env = "LOCAL";
 	}
 
 	public function index()
@@ -43,25 +44,41 @@ class Lab_ak_input extends CI_Controller {
 		$kode_plant = $this->session->userdata("kode_plant");
 		if($this->server_env == "LOCAL"){
 			$db_server = $this->simpg_address_local;
+			switch($kepemilikan){
+        case "ts":
+          $kepemilikan = "ts-hg";
+          break;
+        case "tr":
+          $kepemilikan = "TR-KR";
+          break;
+        case "tsi":
+          $kepemilikan = "ts-ip";
+          break;
+      }
+			$request = array(
+				"kepemilikan"=>$kepemilikan,
+				"tahun_giling"=>$tahun_giling
+			);
+			echo $this->petakkebun_model->getAllPetakKebunByKepemilikan($request);
 		} else {
 			if ($kode_plant == "GK22"){$db_server = "http://simpgbuma.ptpn7.com/index.php";}
 			if ($kode_plant == "GK23"){$db_server = "http://simpgcima.ptpn7.com/index.php";}
+			$curl = curl_init();
+	    curl_setopt_array($curl, array(
+	      CURLOPT_URL => $db_server."/api_bcn/getAllPetakKebunByKepemilikan?kepemilikan=".$kepemilikan."&tahun_giling=".$tahun_giling,
+	      CURLOPT_RETURNTRANSFER => true,
+	      CURLOPT_TIMEOUT => 30,
+	      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+	      CURLOPT_CUSTOMREQUEST => "GET",
+	      CURLOPT_HTTPHEADER => array(
+	        "cache-control: no-cache"
+	      )
+	    ));
+	    $response = curl_exec($curl);
+	    $error = curl_error($curl);
+	    curl_close($curl);
+			echo $response;
 		}
-		$curl = curl_init();
-    curl_setopt_array($curl, array(
-      CURLOPT_URL => $db_server."/api_bcn/getAllPetakKebunByKepemilikan?kepemilikan=".$kepemilikan."&tahun_giling=".$tahun_giling,
-      CURLOPT_RETURNTRANSFER => true,
-      CURLOPT_TIMEOUT => 30,
-      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-      CURLOPT_CUSTOMREQUEST => "GET",
-      CURLOPT_HTTPHEADER => array(
-        "cache-control: no-cache"
-      )
-    ));
-    $response = curl_exec($curl);
-    $error = curl_error($curl);
-    curl_close($curl);
-		echo $response;
 	}
 
 	public function test(){

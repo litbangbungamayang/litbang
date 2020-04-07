@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Biayatma_model extends CI_Model{
+class Petakkebun_model extends CI_Model{
 
   private $_table = "tbl_petakkebun";
   public $kode_plant;
@@ -21,6 +21,17 @@ class Biayatma_model extends CI_Model{
 
   public function getPetakKebunByTahunGiling(){
     $tahun_giling = $this->input->get("tahun_giling");
+  }
+
+  public function getAllPetakKebunByKepemilikan($request){
+    $query =
+    "
+      select *, vts.nama_varietas as nama_varietas
+      from tbl_petak ptk
+        join tbl_varietas vts on ptk.kode_varietas = vts.id_varietas
+      where ptk.kepemilikan = ? and ptk.mature = ?
+    ";
+    return json_encode($this->db->query($query, array($request["kepemilikan"], $request["tahun_giling"]))->result());
   }
 
 }
