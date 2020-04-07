@@ -149,17 +149,30 @@ class Ankem_model extends CI_Model{
     return json_encode($this->db->query($query, array($kode_blok, $jenis_analisa))->result());
   }
 
-  public function getAllData(){
+  public function getAllDataAnalisa($request){
+    /*
     $tahun_giling = $this->input->get("tahun_giling");
-    $kode_plant = $this->input->get("kode_plant");
+    $kode_plant = $this->session->userdata("kode_plant");
     $tgl_awal = $this->input->get("tgl_awal");
     $tgl_akhir = $this->input->get("tgl_akhir");
+    */
+    if(is_null($request)){
+      $tahun_giling = "2020";
+      $kode_plant = "GK22";
+      $tgl_awal = "2020-01-01";
+      $tgl_akhir = "2020-12-31";
+    } else {
+      $tahun_giling = $request["tahun_giling"];
+      $kode_plant = $this->session->userdata("kode_plant");
+      $tgl_awal = $request["tgl_awal"];
+      $tgl_akhir = $request["tgl_akhir"];
+    }
     $query =
     "
     select
       ptk.kode_blok, ptk.deskripsi_blok, ptk.periode,
       ptk.status_blok, ptk.luas_tanam, ptk.kepemilikan,
-      dta.tgl_analisa,
+      dta.tgl_analisa, dta.ronde, vts.nama_varietas,
       avg(dta.brix_atas) as brix_atas,
       avg(dta.brix_tengah) as brix_tengah,
       avg(dta.brix_bawah) as brix_bawah,
@@ -193,6 +206,7 @@ class Ankem_model extends CI_Model{
     join tbl_varietas vts on vts.id_varietas = ptk.kode_varietas
     where dta.kode_plant = ? and dta.tgl_analisa >= ? and dta.tgl_analisa <= ?
     group by dta.kode_petak
+    order by dta.ronde
     ";
     return json_encode($this->db->query($query, array($kode_plant, $tgl_awal, $tgl_akhir))->result());
   }

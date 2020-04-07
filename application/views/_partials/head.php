@@ -24,7 +24,7 @@
   requirejs.config({
       baseUrl: "<? echo base_url('')?>",
       paths: {
-        'datepicker': "<? echo base_url('assets/plugins/datepicker/bootstrap-datepicker.min') ?>"
+        'datepicker': "<? echo base_url('assets/plugins/datepicker/bootstrap-datepicker.min') ?>",
       }
   });
 </script>
@@ -40,7 +40,7 @@
 <!-- Input Mask Plugin -->
 <script src="<? echo base_url('assets/plugins/input-mask/plugin.js') ?>"></script>
 <!-- Datatables Plugin -->
-<script src="<? echo base_url('assets/plugins/datatables_2/plugin.js') ?>"></script>
+<script src="<? echo base_url('assets/plugins/datatables_3/plugin.js') ?>"></script>
 <link href="<? //echo base_url('assets/plugins/datatables_2/datatables.css') ?>" rel="stylesheet" />
 <script src="<? //echo base_url('assets/plugins/datatables_2/datatables.min.js') ?>"></script>
 <!-- DatePicker Plugin -->

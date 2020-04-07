@@ -11,13 +11,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
       <div class="flex-fill">
         <? $this->load->view("_partials/navbar.php") ?>
         <div class="my-3 my-md-3">
-          <script>
-            require(['jquery','datatables', 'selectize', 'datepicker'], function() {
-              $(document).ready(function() {
-                window.js_base_url = "<? echo base_url(); ?>" + "index.php/";
-              });
-            });
-          </script>
           <div class="container">
             <? $this->load->view("_partials/page_title.php") ?>
             <?
@@ -30,6 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             require(['jquery','datatables', 'selectize', 'datepicker'], function () {
 
             	$(document).ready(function () {
+                window.js_base_url = "<? echo base_url(); ?>" + "index.php/";
                 <?
                   if (isset($script)){
                     echo $script;
