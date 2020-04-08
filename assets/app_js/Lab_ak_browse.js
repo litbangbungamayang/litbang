@@ -67,6 +67,10 @@ $("#tblListAnalisa").DataTable({
       className: "text-center"
     },
     {
+      data: "periode",
+      className: "text-center"
+    },
+    {
       data: "tgl_analisa",
       className: "text-center"
     },

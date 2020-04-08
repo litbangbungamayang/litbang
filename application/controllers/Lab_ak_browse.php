@@ -147,6 +147,7 @@ class Lab_ak_browse extends CI_Controller {
                       <th>Luas (ha)</th>
                       <th>Varietas</th>
                       <th>Kategori</th>
+                      <th>Masa Tanam</th>
                       <th>Tgl. Analisa</th>
                       <th>Rend. Campur</th>
                       <th>FK</th>
