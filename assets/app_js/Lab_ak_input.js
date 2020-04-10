@@ -112,9 +112,9 @@ $cbxKepemilikan = $("#kepemilikan").selectize({
 $cbxPetakKebun = $("#petak_kebun").selectize({
   create: false,
   valueField: "kode_blok",
-  labelField: "deskripsi_blok",
+  labelField: "deskripsi_detail",
   sortField: "kode_blok",
-  searchField: "deskripsi_blok",
+  searchField: "deskripsi_detail",
   placeholder: "Pilih petak kebun",
   onChange: function(value){
     $.ajax({

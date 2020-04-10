@@ -26,7 +26,7 @@ class Petakkebun_model extends CI_Model{
   public function getAllPetakKebunByKepemilikan($request){
     $query =
     "
-      select *, vts.nama_varietas as nama_varietas
+      select *, vts.nama_varietas as nama_varietas, concat(ptk.deskripsi_blok, ' ', ptk.periode, ' ', ptk.status_blok) as deskripsi_detail
       from tbl_petak ptk
         join tbl_varietas vts on ptk.kode_varietas = vts.id_varietas
       where ptk.kepemilikan = ? and ptk.mature = ?
