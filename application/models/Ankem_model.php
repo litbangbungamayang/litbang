@@ -136,6 +136,7 @@ class Ankem_model extends CI_Model{
   public function getDataAwal(){
     $kode_blok = $this->input->get("kode_blok");
     $jenis_analisa = $this->input->get("jenis_analisa");
+    $kode_plant = $this->session->userdata("kode_plant");
     $query =
     "
     select
@@ -143,10 +144,10 @@ class Ankem_model extends CI_Model{
       round(avg(ankem.rend_campur),2) as rataan_rendCampur,
       round(avg(ankem.hk_bawah),2) as rataan_hkBawah
     from tbl_ltb_dataankem ankem
-    where ankem.kode_petak = ? and ankem.jenis_analisa = ?
+    where ankem.kode_petak = ? and ankem.jenis_analisa = ? and ankem.kode_plant = ?
     group by ankem.ronde
     ";
-    return json_encode($this->db->query($query, array($kode_blok, $jenis_analisa))->result());
+    return json_encode($this->db->query($query, array($kode_blok, $jenis_analisa, $kode_plant))->result());
   }
 
   public function getAllDataAnalisa($request){
@@ -170,9 +171,9 @@ class Ankem_model extends CI_Model{
     $query =
     "
     select
-      ptk.kode_blok, ptk.deskripsi_blok, ptk.periode,
+      ptk.kode_blok, left(ptk.deskripsi_blok, 4) as rayon, ptk.deskripsi_blok, ptk.periode,
       ptk.status_blok, ptk.luas_tanam, ptk.kepemilikan,
-      dta.tgl_analisa, dta.ronde, vts.nama_varietas,
+      dta.tgl_analisa, dta.ronde, vts.nama_varietas, ptk.taksasi_pandang,
       avg(dta.brix_atas) as brix_atas,
       avg(dta.brix_tengah) as brix_tengah,
       avg(dta.brix_bawah) as brix_bawah,
@@ -200,7 +201,8 @@ class Ankem_model extends CI_Model{
       avg(dta.rata_panjang) as rata_panjang,
       avg(dta.rata_ruas) as rata_ruas,
       avg(dta.rata_diameter) as rata_diameter,
-      avg(dta.kg_per_meter) as rata_kgm
+      avg(dta.kg_per_meter) as rata_kgm,
+      avg(dta.penggerek) as rata_penggerek
       from tbl_ltb_dataankem dta
     join tbl_petak ptk on dta.kode_petak = ptk.kode_blok
     join tbl_varietas vts on vts.id_varietas = ptk.kode_varietas
