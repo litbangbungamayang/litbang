@@ -207,7 +207,7 @@ class Ankem_model extends CI_Model{
     join tbl_petak ptk on dta.kode_petak = ptk.kode_blok
     join tbl_varietas vts on vts.id_varietas = ptk.kode_varietas
     where dta.kode_plant = ? and dta.tgl_analisa >= ? and dta.tgl_analisa <= ?
-    group by dta.kode_petak
+    group by dta.kode_petak, dta.ronde
     order by dta.ronde
     ";
     return json_encode($this->db->query($query, array($kode_plant, $tgl_awal, $tgl_akhir))->result());
