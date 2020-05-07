@@ -3,6 +3,7 @@ var $cbxSampelAnalisa, cbxSampelAnalisa;
 var btn_addFisik = $("#btn_addFisik");
 var btn_hitungData = $("#btn_hitungData");
 var btn_simpanData = $("#btn_simpanData");
+var btn_sampelBaru = $("#btn_sampelBaru");
 var btn_kembali = $("#btn_kembali");
 var txtPanjang = $("#fisik_panjang");
 var txtRuas = $("#fisik_ruas");
@@ -53,6 +54,7 @@ var lbl_kp = $("#lbl_kp");
 var lbl_kdt = $("#lbl_kdt");
 
 var arrayFisikTebu = [];
+var arrayDataAnalisa = [];
 var arrayPost = [];
 var dataAnalisaTebu;
 var dataHitungFisikTebu;
@@ -333,7 +335,6 @@ btn_hitungData.on("click", function(){
   if (validasiAnalisa() && arrayFisikTebu.length > 0 && $petak_pilihan !== undefined){
     getInputAnalisa();
     dialogHasilAnalisa.modal("toggle");
-    //btn_simpanData.prop("disabled", false);
   } else {
     if (arrayFisikTebu.length == 0){
       alert("Data fisik tebu belum diinput!");
@@ -345,13 +346,16 @@ btn_hitungData.on("click", function(){
 })
 
 btn_simpanData.on("click", function(){
-  console.log(JSON.stringify(dataAnalisaTebu));
+  //console.log(JSON.stringify(dataAnalisaTebu));
+  arrayDataAnalisa.push(dataAnalisaTebu);
+  console.log(JSON.stringify(arrayDataAnalisa));
   $.ajax({
     url: js_base_url + "Lab_ak_dataanalisa/simpanDataAnalisa",
     dataType: "json",
     type: "POST",
-    data: "data_analisa=" + JSON.stringify(dataAnalisaTebu),
+    data: "data_analisa=" + JSON.stringify(arrayDataAnalisa),
     success: function(data){
+      /*
       if (data.status == "SUCCESS"){
         if (confirm("Apakah ada SAMPEL lain untuk PETAK INI ?")){
           resetAnalisa();
@@ -370,9 +374,39 @@ btn_simpanData.on("click", function(){
             }
           })
         }
+      }*/
+      if (data.status == "SUCCESS"){
+        alert("Data telah tersimpan!");
+        resetAnalisa();
+        dialogHasilAnalisa.modal("toggle");
+        localStorage.removeItem("no_sampel");
+        $.ajax({
+          url: js_base_url + "Lab_ak_dataanalisa/unsetPetakPilihan",
+          type: "GET",
+          dataType: "text",
+          success: function(data){
+            window.location.href = data;
+          }
+        })
+      } else {
+        if (data.status == "FAILED"){
+          alert("Pengiriman data mengalami KEGAGALAN!");
+        }
       }
     }
   })
+})
+
+btn_sampelBaru.on("click", function(){
+  if (confirm("Anda akan menambah sampel baru?")){
+    arrayDataAnalisa.push(dataAnalisaTebu);
+    resetAnalisa();
+    var no_sampel = Number(arrayDataAnalisa.length)+1;
+    localStorage.setItem("no_sampel", no_sampel);
+    txtNoSampel.html(localStorage.getItem("no_sampel"));
+    dialogHasilAnalisa.modal("toggle");
+    console.log(arrayDataAnalisa);
+  }
 })
 
 btn_kembali.on("click", function(){
@@ -531,6 +565,7 @@ function getInputAnalisa(){
   var v_brixHitungCampur = v_brixCampur + v_korSuhuCampur;
   var v_totalBeratNira = v_niraAtas + v_niraTengah + v_niraBawah;
   var v_totalBeratTebu = v_tebuAtas + v_tebuTengah + v_tebuBawah;
+  var v_penggerekRata = duaDesimal(v_penggerekCampur/dataJumlahFisikTebu.fisik_ruas*100);
   var v_faktorPerah = duaDesimal(v_totalBeratNira/v_totalBeratTebu);
   var v_polAtas = duaDesimal(hitungPol(v_putaranAtas, hitungBeratJenis(v_brixHitungAtas)));
   var v_polTengah = duaDesimal(hitungPol(v_putaranTengah, hitungBeratJenis(v_brixHitungTengah)));
@@ -553,7 +588,7 @@ function getInputAnalisa(){
   var v_kp = 0.00;
   var v_kdt = 0.00;
   if ($petak_pilihan.data_awal.length >= 2){
-    var rondeMin2 = $petak_pilihan.data_awal.length-1;
+    var rondeMin2 = $petak_pilihan.data_awal.length-2;
     var v_rendLalu = duaDesimal($petak_pilihan.data_awal[rondeMin2].rataan_rendCampur);
     var v_hkBawahLalu = duaDesimal($petak_pilihan.data_awal[rondeMin2].rataan_hkBawah);
     v_kp = duaDesimal(v_rendCampur/v_rendLalu*100);
@@ -598,7 +633,7 @@ function getInputAnalisa(){
     $petak_pilihan.tgl_analisa,
     v_tebuAtas, v_tebuTengah, v_tebuBawah,
     v_niraAtas, v_niraTengah, v_niraBawah,
-    v_penggerekCampur,
+    v_penggerekRata,
     v_brixAtas, v_brixTengah, v_brixBawah, v_brixCampur,
     v_putaranAtas, v_putaranTengah, v_putaranBawah, v_putaranCampur,
     v_suhuCampur,
@@ -613,7 +648,7 @@ function getInputAnalisa(){
     dataHitungFisikTebu.fisik_panjang, dataHitungFisikTebu.fisik_ruas, dataHitungFisikTebu.fisik_dia,
     v_kgPerMeter, arrayFisikTebu
   );
-  console.log(dataAnalisaTebu);
+  //console.log(dataAnalisaTebu);
 }
 
 function resetFisik(){

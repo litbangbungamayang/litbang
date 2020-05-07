@@ -43,34 +43,35 @@ class Lab_ak_dataanalisa extends CI_Controller {
     $data_analisa = json_decode($this->input->post("data_analisa"));
     //var_dump($data_analisa);
     $this->db->trans_begin();
-    $id_analisa = $this->ankem_model->simpan($data_analisa);
-    //----- INPUT DATA FISIK ---------
-    for ($i = 0; $i < sizeof($data_analisa->data_fisik); $i++){
-      $post_dataFisik = array(
-        "id_analisa"=>$id_analisa,
-        "no_urut"=>$i + 1,
-        "panjang_batang"=>$data_analisa->data_fisik[$i]->fisik_panjang,
-        "jml_ruas"=>$data_analisa->data_fisik[$i]->fisik_ruas,
-        "diameter_batang"=>$data_analisa->data_fisik[$i]->fisik_dia
-      );
-      $this->ankemfisik_model->simpan($post_dataFisik);
+    for ($j = 0; $j < sizeof($data_analisa); $j++){
+      $id_analisa = $this->ankem_model->simpan($data_analisa[$j]);
+      //----- INPUT DATA FISIK ---------
+      for ($i = 0; $i < sizeof($data_analisa[$j]->data_fisik); $i++){
+        $post_dataFisik = array(
+          "id_analisa"=>$id_analisa,
+          "no_urut"=>$i + 1,
+          "panjang_batang"=>$data_analisa[$j]->data_fisik[$i]->fisik_panjang,
+          "jml_ruas"=>$data_analisa[$j]->data_fisik[$i]->fisik_ruas,
+          "diameter_batang"=>$data_analisa[$j]->data_fisik[$i]->fisik_dia
+        );
+        $this->ankemfisik_model->simpan($post_dataFisik);
+      }
     }
     //--------------------------------
     if($this->db->trans_status()){
       $this->db->trans_commit();
-      $no_sampel = json_decode($this->ankem_model->getSampel($data_analisa->kode_blok, $data_analisa->ronde))->no_sampel;
+      //$no_sampel = json_decode($this->ankem_model->getSampel($data_analisa[$j]->kode_blok, $data_analisa->ronde))->no_sampel;
       $return = (object) array(
-        "status"=>"SUCCESS",
-        "no_sampel"=>$no_sampel
+        "status"=>"SUCCESS"
       );
       echo json_encode($return);
     } else {
       $this->db->trans_rollback();
       $return = (object) array(
-        "status"=>"FAILED",
-        "no_sampel"=>null
+        "status"=>"FAILED"
       );
     }
+
   }
 
   public function getPetakPilihan(){
@@ -264,7 +265,7 @@ class Lab_ak_dataanalisa extends CI_Controller {
                           <div class="row" style="margin-top: 20px">
                             <div class="col-md-12 col-lg-12">
                               <div class="btn-list text-center">
-                                <button type="button" class="btn btn-green" id="btn_hitungData"><i class="fe fe-percent"></i> Hitung Data</button>
+                                <button type="button" class="btn btn-green" id="btn_hitungData"><i class="fe fe-check-circle"></i> Hitung Data</button>
                                 <button type="button" class="btn btn-red" id="btn_kembali"><i class="fe fe-arrow-left-circle"></i> Batal & Kembali</button>
                               </div>
                             </div>
@@ -379,6 +380,7 @@ class Lab_ak_dataanalisa extends CI_Controller {
               <div class="col-md-12 col-lg-12">
                 <div class="btn-list text-center">
                   <button type="button" class="btn btn-primary" id="btn_simpanData"><i class="fe fe-save"></i> Simpan Data</button>
+                  <button type="button" class="btn btn-gray-dark" id="btn_sampelBaru"><i class="fe fe-loader"></i> Buat Sampel Baru</button>
                 </div>
               </div>
             </div>
