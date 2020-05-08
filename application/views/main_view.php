@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             ?>
           </div>
           <script>
-            require(['jquery','datatables', 'selectize', 'datepicker'], function () {
+            require(['jquery','datatables', 'selectize', 'datepicker', 'chart'], function () {
 
             	$(document).ready(function () {
                 window.js_base_url = "<? echo base_url(); ?>" + "index.php/";

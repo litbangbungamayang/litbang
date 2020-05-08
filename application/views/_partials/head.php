@@ -25,6 +25,7 @@
       baseUrl: "<? echo base_url('')?>",
       paths: {
         'datepicker': "<? echo base_url('assets/plugins/datepicker/bootstrap-datepicker.min') ?>",
+        'chart': "<? echo base_url('assets/plugins/chart.js/Chart.bundle.min') ?>"
       }
   });
 </script>
@@ -45,3 +46,5 @@
 <script src="<? //echo base_url('assets/plugins/datatables_2/datatables.min.js') ?>"></script>
 <!-- DatePicker Plugin -->
 <link href="<? echo base_url('assets/plugins/datepicker/bootstrap-datepicker.min.css') ?>" rel="stylesheet" />
+<!-- Chart.js Plugin -->
+<script src="<? //echo base_url('assets/plugins/chart.js/Chart.bundle.js') ?>"></script>

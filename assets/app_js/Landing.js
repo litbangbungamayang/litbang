@@ -1,29 +1,38 @@
+var ctx = $('#myChart');
 
-loadDashboardData();
-
-function loadDashboardData(){
-  $.ajax({
-    url: js_base_url + "Landing/loadData",
-    dataType:"json",
-    type: "GET",
-    success: function(response){
-      $("#total_luas").html(parseFloat(response.total_luas).toLocaleString() + " ha");
-      $("#total_kelompok").html(response.total_kelompok);
-      $("#total_petani").html(response.total_petani);
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+            label: '# of Votes',
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
     }
-  });
-  $.ajax({
-    url: js_base_url + "Landing/loadDataGudang",
-    dataType: "json",
-    type: "GET",
-    success: function(response){
-      $.each(response, function(i, item){
-        var $tr = $("<tr>").append(
-          $("<td>").text(item.jenis_bahan + " " + item.nama_bahan),
-          $("<td class=text-right>").text(parseInt(item.total_kuanta).toLocaleString() + " " + item.satuan)
-        );
-        $("#tblStok").append($tr);
-      });
-    }
-  });
-}
+});

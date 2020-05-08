@@ -14,6 +14,7 @@
             <div class="dropdown-menu dropdown-menu-arrow">
               <a href="<? echo site_url('/lab_ak_input')?>" class="dropdown-item " style=""><i class="fe fe-search"></i> Input Data Analisa</a>
               <a href="<? echo site_url('/lab_ak_browse')?>" class="dropdown-item "><i class="fe fe-edit"></i> Penelusuran Data</a>
+              <a href="<? echo site_url('/lab_ak_dataPetak')?>" class="dropdown-item "><i class="fe fe-trending-up"></i> Data Petak Kebun</a>
             </div>
           </li>
           <li class="nav-item dropdown" style="display:<? echo ($loggedUser->jabatan == 'Superadmin' || $loggedUser->jabatan == 'Admin')? '' : 'none'; ?>">

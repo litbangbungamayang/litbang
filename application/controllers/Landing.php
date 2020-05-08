@@ -35,9 +35,26 @@ class Landing extends CI_Controller {
 	public function loadContent(){
 		$content_header =
 		'
-
+		<div class="page">
+			<div class="row">
+				<div class="card">
+					<div class="card-header">
+						<h4 class="modal-title">Contoh Grafik</h4>
+					</div>
+					<div class="card-body">
+						<div class="row">
+							<div class="col-md-12 col-lg-12">
+								<div class="chart-container" style="position: relative; height: 200px; width: 200px">
+									<canvas id="myChart" width="400" height="400" style="height: 100px; width: 100px;"></canvas>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		';
-		return $content_header;
+		return "";
 	}
 
 	function logout(){
