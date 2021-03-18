@@ -171,7 +171,7 @@ class Ankem_model extends CI_Model{
     $query =
     "
     select
-      ptk.kode_blok, left(ptk.deskripsi_blok, 4) as rayon, ptk.deskripsi_blok, ptk.periode,
+      ptk.kode_blok, divisi as rayon, ptk.deskripsi_blok, ptk.periode,
       ptk.status_blok, ptk.luas_tanam, ptk.kepemilikan,
       dta.tgl_analisa, dta.ronde, vts.nama_varietas, ptk.taksasi_pandang,
       avg(dta.brix_atas) as brix_atas,
