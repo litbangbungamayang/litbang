@@ -159,7 +159,7 @@ class Ankem_model extends CI_Model{
     */
     if(is_null($request)){
       $tahun_giling = "2020";
-      $kode_plant = "GK22";
+      $kode_plant = "7TK1";
       $tgl_awal = "2020-01-01";
       $tgl_akhir = "2020-12-31";
     } else {

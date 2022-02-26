@@ -29,9 +29,9 @@ class Petakkebun_model extends CI_Model{
       select *, vts.nama_varietas as nama_varietas, concat(ptk.deskripsi_blok) as deskripsi_detail
       from tbl_petak ptk
         join tbl_varietas vts on ptk.kode_varietas = vts.id_varietas
-      where ptk.kepemilikan = ? and ptk.mature = ?
+      where ptk.kepemilikan = ? and ptk.mature = ? and ptk.kode_plant = ?
     ";
-    return json_encode($this->db->query($query, array($request["kepemilikan"], $request["tahun_giling"]))->result());
+    return json_encode($this->db->query($query, array($request["kepemilikan"], $request["tahun_giling"], $request["kode_plant"]))->result());
   }
 
 }

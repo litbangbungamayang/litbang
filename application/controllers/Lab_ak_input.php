@@ -57,7 +57,8 @@ class Lab_ak_input extends CI_Controller {
       }
 			$request = array(
 				"kepemilikan"=>$kepemilikan,
-				"tahun_giling"=>$tahun_giling
+				"tahun_giling"=>$tahun_giling,
+				"kode_plant"=>$kode_plant
 			);
 			echo $this->petakkebun_model->getAllPetakKebunByKepemilikan($request);
 		} else {

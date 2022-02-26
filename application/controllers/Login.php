@@ -32,6 +32,7 @@ class Login extends CI_Controller {
         $this->session->set_userdata((array) $loggedUser);
         $this->session->set_userdata('afd',$nama_afd);
         $this->session->set_userdata('id_afd', $id_afd);
+        $this->session->set_userdata('kode_plant', $loggedUser->kode_plant);
       } else {
 
       }
